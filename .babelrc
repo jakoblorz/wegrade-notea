@@ -1,0 +1,27 @@
+/* .babelrc */
+{
+  "plugins": [
+    [
+      "@babel/plugin-transform-typescript",
+      {
+        "allowNamespaces": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": false
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": true
+        }
+      }
+    ]
+  ]
+}

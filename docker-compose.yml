@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  wegradedb:
+    container_name: wegrade_db
+    restart: always
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: wegrade
+    ports: ["5432:5432"]

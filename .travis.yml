@@ -1,0 +1,34 @@
+language: node_js
+
+node_js:
+  - 12
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database wegrade_test;' -U postgres
+  - yarn install
+
+env:
+  - DATABASE_URL=postgres://postgres@127.0.0.1:5432/wegrade_test
+
+jobs:
+  - name: "Test React.JS Frontend Code using Jest"
+    script: COVERALLS_FLAG_NAME=frontend yarn run test-react-ci
+  - name: "Test Node.JS Backend Code using Jest"
+    script: COVERALLS_FLAG_NAME=backend yarn run test-server-ci
+  - name: "Deploy to Chromatic"
+    if: branch != master
+    script: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --exit-zero-on-changes
+    # 👇 Checks if the branch is master and runs Chromatic with the flag to accept all changes
+  - name: "Deploy to Chromatic and auto accepts changes"
+    if: branch = master
+    script: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes
+
+after_success:
+  - yarn chromatic --project-token=4zj8ten4s2x --patch-build=$TRAVIS_BRANCH...develop
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  webhooks: https://coveralls.io/webhook

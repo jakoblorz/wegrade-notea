@@ -1,0 +1,22 @@
+{
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "env": {
+    "SECRET_KEY": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "ENV": "PRODUCTION",
+    "AWS_S3_UPLOAD_BUCKET_URL": "http://s3:4569"
+  },
+  "environments": {
+    "review": {
+      "env": {
+        "ENV": "DEVELOPMENT",
+        "AWS_S3_UPLOAD_BUCKET_URL": "http://s3:4569",
+        "SECRET_KEY": "106f2d721ac6ad46c73e61d383cb1f98d0d0c5789f4fbf49bd91f9ee03d75d1c",
+        "NODE_TLS_REJECT_UNAUTHORIZED": 0
+      },
+      "addons": ["heroku-postgresql:hobby-dev"]
+    }
+  }
+}
